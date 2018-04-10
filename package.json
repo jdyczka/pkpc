@@ -10,6 +10,18 @@
   "license": "ISC",
   "dependencies": {},
   "devDependencies": {
-    "gulp": "^3.9.1"
+    "browser-sync": "^2.23.6",
+    "cheerio": "^1.0.0-rc.2",
+    "del": "^3.0.0",
+    "fs": "0.0.1-security",
+    "fs-cheerio": "^2.0.1",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^5.0.0",
+    "gulp-download": "0.0.1",
+    "gulp-run": "^1.7.1",
+    "gulp-sass": "^3.2.1",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-util": "^3.0.8",
+    "yargs": "^11.0.0"
   }
 }
