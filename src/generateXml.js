@@ -50,7 +50,7 @@ fs.readFile('./src/countriesInfo.json', 'utf8', function (err, data) {
 
         xmlCountries += `        <country country-code="${c.alpha3Code}" tabindex="0">
             <country-name>${c.name}</country-name>
-            <country-flag src="${c.flag}"><html xmlns="http://www.w3.org/1999/xhtml"><img alt="" src="${c.flag}" /></html></country-flag>
+            <country-flag src="${c.flag}" xmlns:html="http://www.w3.org/1999/xhtml"><html:img alt="" src="${c.flag}" /></country-flag>
             <country-info type="basic" info="region">${c.region}</country-info>
             <country-info type="basic" info="capital">${c.capital}</country-info>
             <country-info type="basic" info="population">${c.population}</country-info>
