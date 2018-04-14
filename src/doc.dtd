@@ -1,0 +1,44 @@
+<!ELEMENT document (document-info, country-codes, countries)>
+
+<!ELEMENT document-info (title, author, date)>
+<!ELEMENT title (#PCDATA)>
+<!ELEMENT author (#PCDATA)>
+<!ELEMENT date (#PCDATA)>
+
+
+<!ELEMENT country-codes (country-code+)>
+<!ELEMENT country-code (#PCDATA)>
+<!ATTLIST country-code 
+    code ID #REQUIRED>
+
+
+<!ELEMENT countries (country+)>
+<!ELEMENT country (country-name, country-flag, country-info*)>
+<!ATTLIST country 
+    country-code IDREF #REQUIRED
+    tabindex CDATA #FIXED "0">
+
+
+<!ELEMENT country-name (#PCDATA)>
+
+<!ELEMENT country-flag (html:img)>
+<!ATTLIST country-flag 
+    src CDATA #REQUIRED
+    xmlns:html CDATA #FIXED "http://www.w3.org/1999/xhtml">
+<!ELEMENT html:img EMPTY>
+<!ATTLIST html:img 
+    src CDATA #REQUIRED
+    alt CDATA #FIXED "">
+
+<!ELEMENT country-info (#PCDATA | country-info-item)*>
+<!ATTLIST country-info 
+    type (basic | additional) "additional"
+    info (region | capital | population | area | timezones | borders | currencies | languages | calling-code | domain) #REQUIRED>
+
+<!ELEMENT country-info-item (#PCDATA | currency-symbol | currency-code | currency-name)*>
+<!ATTLIST country-info-item
+    info-item (timezone | border | currency | language) #REQUIRED>
+    
+<!ELEMENT currency-symbol (#PCDATA)>
+<!ELEMENT currency-code (#PCDATA)>
+<!ELEMENT currency-name (#PCDATA)>
