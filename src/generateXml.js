@@ -1,13 +1,19 @@
 var fs = require('fs');
 var countries;
+
+var dtdString = `<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE document SYSTEM "doc.dtd">
+<?xml-stylesheet href="style.css" type="text/css" ?>`;
+
+var xsdString = `<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE document SYSTEM "doc.xsd">`;
+
 fs.readFile('./src/countriesInfo.json', 'utf8', function (err, data) {
     if (err) throw err;
     countries = JSON.parse(data);
     //console.log(countries);
 
-    var xmlString = `<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<!DOCTYPE document SYSTEM "doc.dtd">
-<?xml-stylesheet href="style.css" type="text/css" ?>
+    var xmlString = `
 <document>
     <document-info>
         <title>Countries of the World</title>
@@ -81,7 +87,13 @@ fs.readFile('./src/countriesInfo.json', 'utf8', function (err, data) {
 
 
     var fs = require('fs');
-    fs.writeFile('./dist/countries.xml', xmlString, function (err) {
+    fs.writeFile('./zadanie-1/countries.xml', dtdString + xmlString, function (err) {
+        if (err) {
+            return console.log(err);
+        }
+        console.log("The file was saved!");
+    });
+    fs.writeFile('./zadanie-2/countries.xml', xsdString + xmlString, function (err) {
         if (err) {
             return console.log(err);
         }

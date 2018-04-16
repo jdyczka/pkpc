@@ -1,4 +1,6 @@
 
+let nameSuffix = 'j_dyczka-m_mika';
+
 const   gulp = require('gulp'),
         fs = require('fs'),
         download = require('gulp-download'),
@@ -12,12 +14,13 @@ const   gulp = require('gulp'),
         autoprefixer = require('gulp-autoprefixer'),
         browserSync = require('browser-sync').create(),
         del = require('del'),
-        run = require('gulp-run');
+        run = require('gulp-run')
+        zip = require('gulp-zip');
 
 var prodNum = argv.nr;
 
 gulp.task('clean', function() {
-    return del.sync(['dist']);
+    return del.sync(['zadanie-*']);
 });
 
 gulp.task('get', function() {
@@ -39,17 +42,40 @@ gulp.task('sass', function() {
             browsers: ['last 3 versions'],
             cascade: false
         }))
-        .pipe(gulp.dest('dist'));
+        .pipe(gulp.dest('zadanie-1'));
 });
 
 gulp.task('xml', function() {
     return run('node ./src/generateXml').exec();
 });
 
+gulp.task('dtd', function() {
+    return gulp.src('src/doc.dtd')
+        .pipe(gulp.dest('zadanie-1'));
+});
+
+gulp.task('xsd', function() {
+    return gulp.src('src/doc.xsd')
+        .pipe(gulp.dest('zadanie-2'));
+});
+
+gulp.task('zip-1', ['sass', 'xml'], function() {
+    gulp.src('src/zadanie-1')
+        .pipe(zip(`zadanie_1-${nameSuffix}.zip`))
+        .pipe(gulp.dest('zadanie-1'))
+});
+gulp.task('zip-2', ['sass', 'xml'], function() {
+    gulp.src('src/zadanie-2')
+        .pipe(zip(`zadanie_2-${nameSuffix}.zip`))
+        .pipe(gulp.dest('zadanie-2'))
+});
+
 gulp.task('default', function () {
     gulp.start(
         'sass',
-        'xml'
+        'xml',
+        'dtd',
+        'xsd'
     );
 });
 
@@ -60,6 +86,16 @@ gulp.task('watch-sass', ['sass'], function(done){
 });
 
 gulp.task('watch-xml', ['xml'], function(done){
+    browserSync.reload();
+    done();
+});
+
+gulp.task('watch-dtd', ['dtd'], function(done){
+    browserSync.reload();
+    done();
+});
+
+gulp.task('watch-xsd', ['xsd'], function(done){
     browserSync.reload();
     done();
 });
@@ -75,4 +111,6 @@ gulp.task('serve', ['default'], function() {
 
     gulp.watch('src/**/*.scss', ['watch-sass']); 
     gulp.watch('src/generateXml.js', ['watch-xml']); 
+    gulp.watch('src/doc.dtd', ['watch-dtd']); 
+    gulp.watch('src/doc.xsd', ['watch-xsd']); 
 });

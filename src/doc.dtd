@@ -42,3 +42,4 @@
 <!ELEMENT currency-symbol (#PCDATA)>
 <!ELEMENT currency-code (#PCDATA)>
 <!ELEMENT currency-name (#PCDATA)>
+
