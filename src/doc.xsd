@@ -1,8 +1,24 @@
 <?xml version="1.0"?>
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<xsd:schema 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    targetNamespace="countries-of-the-world/main">
 
     <xsd:element name="document">
         <xsd:complexType>
+
+
+            <xs:key name="iso-3-digit-country-code">
+                <xsd:selector xpath="country-codes/country-code" />
+                <xsd:field xpath="@code" />
+            </xs:key>
+            <xs:keyref refer="iso-3-digit-country-code">
+                <xs:selector xpath="countries/country" />
+                <xs:field xpath="@country-code" />
+            </xs:keyref>
+
+
+
             <xsd:sequence>
 
 
@@ -10,9 +26,13 @@
                 <xsd:element name="document-info">
                     <xsd:complexType>
                         <xsd:sequence>
+
                             <xsd:element name="title" type="xsd:string" />
+
                             <xsd:element name="author" type="xsd:string" />
+
                             <xsd:element name="date" type="xsd:dateTime" />
+
                         </xsd:sequence>
                     </xsd:complexType>
                 </xsd:element>
@@ -22,10 +42,13 @@
 
                 <xsd:element name="country-codes">
                     <xsd:complexType>
+                        <xsd:attribute name="code" type="xsd:string" use="required" />
                         <xsd:sequence>
+
                             <xsd:element name="country-code">
                                 <xsd:complexType />
-                            </xsd:element name="country-code">
+                            </xsd:element>
+
                         </xsd:sequence>
                     </xsd:complexType>
                 </xsd:element>
@@ -35,30 +58,54 @@
                 <xsd:element name="countries">
                     <xsd:complexType>
                         <xsd:sequence>
+
                             <xsd:element name="country">
                                 <xsd:complexType>
+                                    <xsd:attribute name="country-code" type="xsd:string" use="required"/>
                                     <xsd:sequence>
+
                                         <xsd:element name="country-name" type="xsd:string" />
+
                                         <xsd:element name="country-flag">
-                                        </xsd:element name="country-flag">
-                                        <xsd:element name="country-info">
                                             <xsd:complexType>
                                                 <xsd:sequence>
+                                                    <html:element name="img" />
+                                                </xsd:sequence>
+                                            </xsd:complexType>
+                                        </xsd:element>
+
+                                        <xsd:element name="country-info">
+                                            <xsd:complexType mixed="true">
+                                                <xsd:attribute name="type">
+                                                    <xsd:restriction>
+                                                        <xsd:ennumeration value="basic" />
+                                                        <xsd:ennumeration value="additional" />
+                                                    </xsd:restriction>
+                                                </xsd:attribute>
+                                                <xsd:sequence>
+
                                                     <xsd:element name="country-info-item">
                                                         <xsd:complexType>
                                                             <xsd:sequence>
+
                                                                 <xsd:element name="currency-symbol" type="xsd:string" />
+
                                                                 <xsd:element name="currency-code" type="xsd:string" />
+
                                                                 <xsd:element name="currency-name" type="xsd:string" />
+
                                                             </xsd:sequence>
                                                         </xsd:complexType>
                                                     </xsd:element>
+
                                                 </xsd:sequence>
                                             </xsd:complexType>
-                                        </xsd:element name="country-info">
+                                        </xsd:element>
+
                                     </xsd:sequence>
                                 </xsd:complexType>
-                            </xsd:element name="country">
+                            </xsd:element>
+
                         </xsd:sequence>
                     </xsd:complexType>
                 </xsd:element>

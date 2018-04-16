@@ -3,10 +3,11 @@ var countries;
 
 var dtdString = `<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <!DOCTYPE document SYSTEM "doc.dtd">
-<?xml-stylesheet href="style.css" type="text/css" ?>`;
+<?xml-stylesheet href="style.css" type="text/css" ?>
+<document>`;
 
-var xsdString = `<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<!DOCTYPE document SYSTEM "doc.xsd">`;
+var xsdString = `<?xml version="1.0" encoding="UTF-8" ?>
+<document xmlns:main="countries-of-the-world/main" main:schemaLocation="./doc.xsd">`;
 
 fs.readFile('./src/countriesInfo.json', 'utf8', function (err, data) {
     if (err) throw err;
@@ -14,7 +15,6 @@ fs.readFile('./src/countriesInfo.json', 'utf8', function (err, data) {
     //console.log(countries);
 
     var xmlString = `
-<document>
     <document-info>
         <title>Countries of the World</title>
         <author>Joanna Dyczka</author>
