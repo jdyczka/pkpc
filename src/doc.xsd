@@ -1,89 +1,94 @@
 <?xml version="1.0"?>
-<xsd:schema 
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-    xmlns:html="http://www.w3.org/1999/xhtml"
-    targetNamespace="countries-of-the-world/main">
-
-               <xsd:complexType name="document-info-type">
-                        <xsd:sequence>
-
-                            <xsd:element name="title" type="xsd:string" />
-
-                            <xsd:element name="author" type="xsd:string" />
-
-                            <xsd:element name="date" type="xsd:dateTime" />
-
-                        </xsd:sequence>
-               </xsd:complexType>
-   <xsd:complexType name="country-code-type">
-                       <xsd:attribute name="country-code" type="xsd:string" use="required"/>
-                    </xsd:complexType>
-
-   <xsd:complexType name="country-codes-type">
-                      <xsd:sequence>
-                      <xsd:element name="country-code" type="country-code-type"/>
-                      </xsd:sequence>
-                </xsd:complexType>
-
-                    <xsd:complexType name="country-flag-type">
-                      <xsd:sequence>
-                        <html:element name="img"/>
-                      </xsd:sequence>
-                    </xsd:complexType>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
 
-                    <xsd:complexType name="country-info-item-type" mixed="true">
-                        <xsd:sequence>
-                            <xsd:element name="currency-symbol" type="xsd:string" />
-                            <xsd:element name="currency-code" type="xsd:string" />
-                            <xsd:element name="currency-name" type="xsd:string" />
-                        </xsd:sequence>
-                       <xsd:attribute name="info-item" type="xsd:string"/>
-                    </xsd:complexType>
+    <xsd:complexType name="document-info-TYPE">
+        <xsd:sequence>
+            <xsd:element name="title" type="xsd:string" />
+            <xsd:element name="author" type="xsd:string" />
+            <xsd:element name="date" type="xsd:dateTime" />
+        </xsd:sequence>
+    </xsd:complexType>
 
-                <xsd:complexType name="country-info-type" mixed="true">
-                    <xsd:sequence>
-                    <element name="country-info-item" type="country-info-item-type"/>
-                    </xsd:sequence>
-                         <xsd:attribute name="type">
-                            <xsd:restriction>
-                             <xsd:ennumeration value="basic" />
-                             <xsd:ennumeration value="additional" />
-                            </xsd:restriction>
-                         </xsd:attribute>
-                </xsd:complexType>
-                <xsd:complexType name="country-type">
-                    <xsd:sequence>
-                        <element name="country-flag" type="country-flag-type"/>
-                        <element name="country-info" type="country-info-type"/>
-                    </xsd:sequence>
-                    <xsd:attribute name="country-code" type="xsd:string" use="required"/>
-                </xsd:complexType>
+    <xsd:simpleType name="iso-country-code-TYPE">
+        <xsd:restriction base="xsd:string">
+            <xsd:length value="3" />
+            <xsd:pattern value="[A-Z][A-Z][A-Z]" />
+        </xsd:restriction>
+    </xsd:simpleType>
 
-         <xsd:complexType name="countries-type">
-            <xsd:sequence>
-                <element name="country" type="country-type"/>
-            </xsd:sequence>
-        </xsd:complexType>
-            
-            <xsd:complexType name="document-type">
-                <xsd:sequence>
-                <xsd:element name="document-info" type="document-info-type"/>
-                <xsd:element name="country-codes" type="country-codes-type"/>
-                <xsd:element name="countries" type="countries-type"/>
-                </xsd:sequence>
-            </xsd:complexType>
-        
-       
-                <xsd:element name="document" type="document-type">
-        <xsd:key name="iso-3-digit-country-code">
-                <xsd:selector xpath="country-codes/country-code" />
-                <xsd:field xpath="@code" />
-            </xsd:key>
-            <xsd:keyref refer="iso-3-digit-country-code">
-                <xsd:selector xpath="countries/country" />
-                <xsd:field xpath="@country-code" />
-            </xsd:keyref>
-        </xsd:element>
-                 
+    <xsd:complexType name="country-code-TYPE">
+        <xsd:attribute name="country-code" type="iso-country-code-TYPE" use="required" />
+    </xsd:complexType>
+
+    <xsd:complexType name="country-codes-TYPE">
+        <xsd:sequence>
+            <xsd:element name="country-code" type="country-code-TYPE" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="country-flag-TYPE">
+        <xsd:sequence xmlns:html="http://www.w3.org/1999/xhtml">
+            <xsd:element name="img" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:simpleType name="country-info-type-TYPE">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="basic" />
+            <xsd:enumeration value="additional" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:complexType name="country-info-item-TYPE" mixed="true">
+        <xsd:sequence>
+            <xsd:element name="currency-symbol" type="xsd:string" />
+            <xsd:element name="currency-code" type="xsd:string" />
+            <xsd:element name="currency-name" type="xsd:string" />
+        </xsd:sequence>
+        <xsd:attribute name="info-item" type="xsd:string" />
+    </xsd:complexType>
+
+    <xsd:complexType name="country-info-TYPE" mixed="true">
+        <xsd:sequence>
+            <xsd:element name="country-info-item" type="country-info-item-TYPE" />
+        </xsd:sequence>
+        <xsd:attribute name="type" type="country-info-type-TYPE" />
+    </xsd:complexType>
+
+    <xsd:complexType name="country-TYPE">
+        <xsd:sequence>
+            <xsd:element name="country-flag" type="country-flag-TYPE" />
+            <xsd:element name="country-info" type="country-info-TYPE" />
+        </xsd:sequence>
+        <xsd:attribute name="country-code" type="xsd:string" use="required" />
+    </xsd:complexType>
+
+    <xsd:complexType name="countries-TYPE">
+        <xsd:sequence>
+            <xsd:element name="country" type="country-TYPE" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="document-TYPE">
+        <xsd:sequence>
+            <xsd:element name="document-info" type="document-info-TYPE" />
+            <xsd:element name="country-codes" type="country-codes-TYPE" />
+            <xsd:element name="countries" type="countries-TYPE" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+
+
+    <xsd:element name="document" type="document-TYPE">
+        <xsd:key name="iso-country-code-id">
+            <xsd:selector xpath="country-codes/country-code" />
+            <xsd:field xpath="@code" />
+        </xsd:key>
+        <xsd:keyref name="iso-country-code-ref" refer="iso-country-code-id">
+            <xsd:selector xpath="countries/country" />
+            <xsd:field xpath="@country-code" />
+        </xsd:keyref>
+    </xsd:element>
+
 </xsd:schema>
