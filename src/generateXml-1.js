@@ -6,9 +6,6 @@ var dtdString = `<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <?xml-stylesheet href="style.css" type="text/css" ?>
 <document>`;
 
-var xsdString = `<?xml version="1.0" encoding="UTF-8" ?>
-<document xmlns:main="countries-of-the-world/main" main:schemaLocation="./doc.xsd">`;
-
 fs.readFile('./src/countriesInfo.json', 'utf8', function (err, data) {
     if (err) throw err;
     countries = JSON.parse(data);
@@ -88,12 +85,6 @@ fs.readFile('./src/countriesInfo.json', 'utf8', function (err, data) {
 
     var fs = require('fs');
     fs.writeFile('./zadanie-1/countries.xml', dtdString + xmlString, function (err) {
-        if (err) {
-            return console.log(err);
-        }
-        console.log("The file was saved!");
-    });
-    fs.writeFile('./zadanie-2/countries.xml', xsdString + xmlString, function (err) {
         if (err) {
             return console.log(err);
         }

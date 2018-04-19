@@ -45,8 +45,11 @@ gulp.task('sass', function() {
         .pipe(gulp.dest('zadanie-1'));
 });
 
-gulp.task('xml', function() {
-    return run('node ./src/generateXml').exec();
+gulp.task('xml-1', function() {
+    return run('node ./src/generateXml-1').exec();
+});
+gulp.task('xml-2', function() {
+    return run('node ./src/generateXml-2').exec();
 });
 
 gulp.task('dtd', function() {
@@ -55,7 +58,7 @@ gulp.task('dtd', function() {
 });
 
 gulp.task('xsd', function() {
-    return gulp.src('src/doc.xsd')
+    return gulp.src('src/*.xsd')
         .pipe(gulp.dest('zadanie-2'));
 });
 
@@ -73,7 +76,8 @@ gulp.task('zip-2', ['sass', 'xml'], function() {
 gulp.task('default', function () {
     gulp.start(
         'sass',
-        'xml',
+        'xml-1',
+        'xml-2',
         'dtd',
         'xsd'
     );
