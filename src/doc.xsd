@@ -1,16 +1,25 @@
 <?xml version="1.0"?>
-<xsd:schema 
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-    targetNamespace="file://doc.xsd" 
-    xmlns="file://doc.xsd" 
-    elementFormDefault="qualified">
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="file://doc.xsd" xmlns="file://doc.xsd" elementFormDefault="qualified">
 
+
+
+    <xsd:simpleType name="short-string-TYPE">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="20" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="non-negative-decimal-TYPE">
+        <xsd:restriction base="xsd:decimal">
+            <xsd:minInclusive value="0" />
+        </xsd:restriction>
+    </xsd:simpleType>
 
     <xsd:complexType name="document-info-TYPE">
         <xsd:sequence>
             <xsd:element name="title" type="xsd:string" />
             <xsd:element name="author" type="xsd:string" maxOccurs="2" />
-            <xsd:element name="date" type="xsd:dateTime" />
+            <xsd:element name="date" type="xsd:date" />
         </xsd:sequence>
     </xsd:complexType>
 
@@ -22,19 +31,26 @@
     </xsd:simpleType>
 
     <xsd:complexType name="country-code-TYPE">
-        <xsd:attribute name="country-code" type="iso-country-code-TYPE" use="required" />
+        <xsd:attribute name="code" type="iso-country-code-TYPE" use="required" />
     </xsd:complexType>
 
     <xsd:complexType name="country-codes-TYPE">
         <xsd:sequence>
-            <xsd:element name="country-code" type="country-code-TYPE" />
+            <xsd:element name="country-code" type="country-code-TYPE" maxOccurs="unbounded" />
         </xsd:sequence>
     </xsd:complexType>
 
+    <xsd:simpleType name="country-name-TYPE">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="100" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
     <xsd:complexType name="country-flag-TYPE">
         <xsd:sequence xmlns:html="http://www.w3.org/1999/xhtml">
-            <xsd:element name="img" />
+            <xsd:any namespace='http://www.w3.org/1999/xhtml' processContents='lax' />
         </xsd:sequence>
+        <xsd:attribute name="src" type="xsd:anyURI" />
     </xsd:complexType>
 
     <xsd:simpleType name="country-info-type-TYPE">
@@ -45,32 +61,36 @@
     </xsd:simpleType>
 
     <xsd:complexType name="country-info-item-TYPE" mixed="true">
+        <!-- <xsd:union memberTypes="short-string-TYPE non-negative-decimal-TYPE" /> -->
         <xsd:sequence>
-            <xsd:element name="currency-symbol" type="xsd:string" />
-            <xsd:element name="currency-code" type="xsd:string" />
-            <xsd:element name="currency-name" type="xsd:string" />
+            <xsd:element name="currency-symbol" type="xsd:string" minOccurs="0" />
+            <xsd:element name="currency-code" type="xsd:string" minOccurs="0" />
+            <xsd:element name="currency-name" type="xsd:string" minOccurs="0" />
         </xsd:sequence>
         <xsd:attribute name="info-item" type="xsd:string" />
     </xsd:complexType>
 
     <xsd:complexType name="country-info-TYPE" mixed="true">
         <xsd:sequence>
-            <xsd:element name="country-info-item" type="country-info-item-TYPE" />
+            <xsd:element name="country-info-item" type="country-info-item-TYPE" minOccurs="0" maxOccurs="unbounded" />
         </xsd:sequence>
         <xsd:attribute name="type" type="country-info-type-TYPE" />
+        <xsd:attribute name="info" type="xsd:token" />
     </xsd:complexType>
 
     <xsd:complexType name="country-TYPE">
         <xsd:sequence>
+            <xsd:element name="country-name" type="country-name-TYPE" />
             <xsd:element name="country-flag" type="country-flag-TYPE" />
-            <xsd:element name="country-info" type="country-info-TYPE" />
+            <xsd:element name="country-info" type="country-info-TYPE" maxOccurs="unbounded" />
         </xsd:sequence>
-        <xsd:attribute name="country-code" type="xsd:string" use="required" />
+        <xsd:attribute name="country-code" type="iso-country-code-TYPE" use="required" />
+        <xsd:attribute name="tabindex" type="xsd:integer" use="required" fixed="0" />
     </xsd:complexType>
 
     <xsd:complexType name="countries-TYPE">
         <xsd:sequence>
-            <xsd:element name="country" type="country-TYPE" />
+            <xsd:element name="country" type="country-TYPE" maxOccurs="unbounded" />
         </xsd:sequence>
     </xsd:complexType>
 
