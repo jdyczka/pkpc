@@ -5,7 +5,7 @@
 
     <xsd:simpleType name="short-string-TYPE">
         <xsd:restriction base="xsd:string">
-            <xsd:maxLength value="20" />
+            <xsd:maxLength value="3" />
         </xsd:restriction>
     </xsd:simpleType>
 
@@ -13,6 +13,15 @@
         <xsd:restriction base="xsd:decimal">
             <xsd:minInclusive value="0" />
         </xsd:restriction>
+    </xsd:simpleType>
+     <xsd:simpleType name="country-name-TYPE">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="100" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="iso-short-country-code-TyPE">
+    <xsd:union MeberTypes="iso-country-cide-TYPE short-string-TYPE">
     </xsd:simpleType>
 
     <xsd:complexType name="document-info-TYPE">
@@ -25,13 +34,12 @@
 
     <xsd:simpleType name="iso-country-code-TYPE">
         <xsd:restriction base="xsd:string">
-            <xsd:length value="3" />
             <xsd:pattern value="[A-Z][A-Z][A-Z]" />
         </xsd:restriction>
     </xsd:simpleType>
 
     <xsd:complexType name="country-code-TYPE">
-        <xsd:attribute name="code" type="iso-country-code-TYPE" use="required" />
+        <xsd:attribute name="code" type="iso-short-country-code-TYPE" use="required" />
     </xsd:complexType>
 
     <xsd:complexType name="country-codes-TYPE">
@@ -40,11 +48,7 @@
         </xsd:sequence>
     </xsd:complexType>
 
-    <xsd:simpleType name="country-name-TYPE">
-        <xsd:restriction base="xsd:string">
-            <xsd:maxLength value="100" />
-        </xsd:restriction>
-    </xsd:simpleType>
+   
 
     <xsd:complexType name="country-flag-TYPE">
         <xsd:sequence xmlns:html="http://www.w3.org/1999/xhtml">
