@@ -3,10 +3,21 @@
 
 
 
+    <xsd:simpleType name="custom-date-TYPE">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="20" />
+            <xsd:pattern value="[1-3]?[0-9].[0-1][0-9].[1-9]?[0-9][0-9][0-9]" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
     <xsd:simpleType name="short-string-TYPE">
         <xsd:restriction base="xsd:string">
             <xsd:maxLength value="20" />
         </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="date-TYPE">
+        <xsd:union memberTypes="date custom-date-TYPE" />
     </xsd:simpleType>
 
     <xsd:simpleType name="non-negative-decimal-TYPE">
@@ -19,7 +30,7 @@
         <xsd:sequence>
             <xsd:element name="title" type="xsd:string" />
             <xsd:element name="author" type="xsd:string" maxOccurs="2" />
-            <xsd:element name="date" type="xsd:date" />
+            <xsd:element name="date" type="date-TYPE" />
         </xsd:sequence>
     </xsd:complexType>
 

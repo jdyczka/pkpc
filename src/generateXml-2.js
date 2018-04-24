@@ -17,7 +17,7 @@ fs.readFile('./src/countriesInfo.json', 'utf8', function (err, data) {
     <document-info>
         <title>Countries of the World</title>
         <author>Joanna Dyczka</author>
-        <date>2018-04-20</date>
+        <date>24.04.2018</date>
     </document-info>
 `;
 
