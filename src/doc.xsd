@@ -20,8 +20,8 @@
         </xsd:restriction>
     </xsd:simpleType>
 
-    <xsd:simpleType name="iso-short-country-code-TyPE">
-    <xsd:union MeberTypes="iso-country-cide-TYPE short-string-TYPE">
+    <xsd:simpleType name="iso-short-country-code-TYPE">
+    <xsd:union memberTypes="iso-country-code-TYPE short-string-TYPE"/>
     </xsd:simpleType>
 
     <xsd:complexType name="document-info-TYPE">
