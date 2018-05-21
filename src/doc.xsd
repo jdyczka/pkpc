@@ -3,10 +3,22 @@
 
 
 
+    <xsd:simpleType name="custom-date-TYPE">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="10" />
+            <xsd:pattern value="[1-3]?[0-9].[0-1][0-9].[1-9]?[0-9]{3}" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
     <xsd:simpleType name="short-string-TYPE">
         <xsd:restriction base="xsd:string">
-            <xsd:maxLength value="3" />
+            <xsd:maxLength value="50" />
+            <xsd:pattern value="[^\n]+" />
         </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="date-TYPE">
+        <xsd:union memberTypes="xsd:date custom-date-TYPE" />
     </xsd:simpleType>
 
     <xsd:simpleType name="non-negative-decimal-TYPE">
@@ -14,32 +26,24 @@
             <xsd:minInclusive value="0" />
         </xsd:restriction>
     </xsd:simpleType>
-     <xsd:simpleType name="country-name-TYPE">
-        <xsd:restriction base="xsd:string">
-            <xsd:maxLength value="100" />
-        </xsd:restriction>
-    </xsd:simpleType>
-
-    <xsd:simpleType name="iso-short-country-code-TyPE">
-    <xsd:union MeberTypes="iso-country-cide-TYPE short-string-TYPE">
-    </xsd:simpleType>
 
     <xsd:complexType name="document-info-TYPE">
         <xsd:sequence>
-            <xsd:element name="title" type="xsd:string" />
-            <xsd:element name="author" type="xsd:string" maxOccurs="2" />
-            <xsd:element name="date" type="xsd:date" />
+            <xsd:element name="title" type="short-string-TYPE" />
+            <xsd:element name="date" type="date-TYPE" />
+            <xsd:element name="author" type="short-string-TYPE" maxOccurs="2" />
         </xsd:sequence>
     </xsd:complexType>
 
     <xsd:simpleType name="iso-country-code-TYPE">
         <xsd:restriction base="xsd:string">
-            <xsd:pattern value="[A-Z][A-Z][A-Z]" />
+            <xsd:length value="3" />
+            <xsd:pattern value="[A-Z]{3}" />
         </xsd:restriction>
     </xsd:simpleType>
 
     <xsd:complexType name="country-code-TYPE">
-        <xsd:attribute name="code" type="iso-short-country-code-TYPE" use="required" />
+        <xsd:attribute name="code" type="iso-country-code-TYPE" use="required" />
     </xsd:complexType>
 
     <xsd:complexType name="country-codes-TYPE">
@@ -48,7 +52,11 @@
         </xsd:sequence>
     </xsd:complexType>
 
-   
+    <xsd:simpleType name="country-name-TYPE">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="100" />
+        </xsd:restriction>
+    </xsd:simpleType>
 
     <xsd:complexType name="country-flag-TYPE">
         <xsd:sequence xmlns:html="http://www.w3.org/1999/xhtml">
@@ -58,20 +66,19 @@
     </xsd:complexType>
 
     <xsd:simpleType name="country-info-type-TYPE">
-        <xsd:restriction base="xsd:string">
+        <xsd:restriction base="xsd:token">
             <xsd:enumeration value="basic" />
             <xsd:enumeration value="additional" />
         </xsd:restriction>
     </xsd:simpleType>
 
     <xsd:complexType name="country-info-item-TYPE" mixed="true">
-        <!-- <xsd:union memberTypes="short-string-TYPE non-negative-decimal-TYPE" /> -->
         <xsd:sequence>
-            <xsd:element name="currency-symbol" type="xsd:string" minOccurs="0" />
-            <xsd:element name="currency-code" type="xsd:string" minOccurs="0" />
-            <xsd:element name="currency-name" type="xsd:string" minOccurs="0" />
+            <xsd:element name="currency-symbol" type="short-string-TYPE" minOccurs="0" />
+            <xsd:element name="currency-code" type="short-string-TYPE" minOccurs="0" />
+            <xsd:element name="currency-name" type="short-string-TYPE" minOccurs="0" />
         </xsd:sequence>
-        <xsd:attribute name="info-item" type="xsd:string" />
+        <xsd:attribute name="info-item" type="xsd:token" />
     </xsd:complexType>
 
     <xsd:complexType name="country-info-TYPE" mixed="true">

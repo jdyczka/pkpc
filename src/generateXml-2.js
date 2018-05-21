@@ -16,8 +16,9 @@ fs.readFile('./src/countriesInfo.json', 'utf8', function (err, data) {
     var xmlString = `
     <document-info>
         <title>Countries of the World</title>
+        <date>24.04.2018</date>
         <author>Joanna Dyczka</author>
-        <date>2018-04-20</date>
+        <author>Mateusz Mika</author>
     </document-info>
 `;
 
